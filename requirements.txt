@@ -1,0 +1,5 @@
+# Required
+# None — network_diagnostics.py runs with zero dependencies out of the box
+
+# Optional — install for enhanced output
+colorama>=0.4.6       # Color-coded terminal output on Windows
