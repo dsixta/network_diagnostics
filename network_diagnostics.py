@@ -300,7 +300,7 @@ class PingTest:
 
         # Linux/macOS: "3 packets transmitted, 3 received, 0% packet loss"
         m2 = re.search(r"(\d+) packets transmitted,\s*(\d+) received", self.raw_output)
-        if m2:
+        elif m2:
             stats["packets_sent"] = int(m2.group(1))
             stats["packets_recv"] = int(m2.group(2))
             lost = stats["packets_sent"] - stats["packets_recv"]
@@ -379,7 +379,7 @@ class LocalNetworkInfo:
             addrs = socket.getaddrinfo(hostname, None)
             for a in addrs:
                 ip = a[4][0]
-                if not ip.startswith("127.") and not ip.startswith("::"):
+                if not ip.startswith("127.") and ip != "::1":
                     ips.append(ip)
         except Exception:
             pass
@@ -612,7 +612,7 @@ class AdapterInfo:
             name = m.group(1)
             ip4 = re.findall(r"inet\s+([\d./]+)", block)
             ip6 = re.findall(r"inet6\s+([^\s]+)", block)
-            mac = re.findall(r"link/ether\s+([0-9a-f:]{17})", block)
+            mac = re.findall(r"link/ether\s+([0-9a-fA-F:]{17})", block)
             self.adapters.append({
                 "name":    name,
                 "ipv4":    ip4,
